@@ -5,8 +5,7 @@ multi-AZ VPC, Application Load Balancer, Auto Scaling EC2 fleet, private RDS MyS
 S3, CloudWatch monitoring and SNS alerts. Optional Route 53 domain + HTTPS.
 
 > Resume line: *Designed and deployed a scalable web application on AWS using EC2, Auto Scaling, Load Balancer, and RDS with secure VPC networking and monitoring via CloudWatch.*
-
-## Features
+# Features
 
 - **High availability**: resources span 2 AZs, unhealthy instances are replaced automatically
 - **Scalability**: CPU target-tracking Auto Scaling (2 to 4 instances by default)
@@ -16,7 +15,7 @@ S3, CloudWatch monitoring and SNS alerts. Optional Route 53 domain + HTTPS.
 
 ## Architecture
 
-See ![Architecture Diagram](./docs/architecture.png)  for the full diagram and design decisions.
+See ![Architecture diagram](docs/architecture.svg)   for the full diagram and design decisions.
 
 ```
 User -> Route 53 -> ALB (public subnets) -> EC2 Auto Scaling Group (private subnets) -> RDS MySQL (private DB subnets)
