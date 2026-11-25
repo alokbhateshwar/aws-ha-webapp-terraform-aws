@@ -1,0 +1,96 @@
+#!/bin/bash
+# Bootstrap script for application servers (Amazon Linux 2023).
+# Output is logged to /var/log/user-data.log and shipped to CloudWatch.
+set -euxo pipefail
+exec > >(tee -a /var/log/user-data.log) 2>&1
+
+# --- Packages ---------------------------------------------------------------
+dnf install -y python3-pip amazon-cloudwatch-agent
+pip3 install --no-cache-dir flask gunicorn pymysql cryptography boto3
+
+# --- Application ------------------------------------------------------------
+id -u webapp &>/dev/null || useradd --system --no-create-home --shell /sbin/nologin webapp
+mkdir -p /opt/webapp
+
+cat > /opt/webapp/app.py <<'APP_EOF'
+${app_code}
+APP_EOF
+
+cat > /etc/webapp.env <<EOF
+AWS_REGION=${region}
+AWS_DEFAULT_REGION=${region}
+DB_HOST=${db_host}
+DB_PORT=${db_port}
+DB_NAME=${db_name}
+DB_SECRET_ARN=${db_secret_arn}
+S3_BUCKET=${bucket_name}
+EOF
+chown root:webapp /etc/webapp.env
+chmod 640 /etc/webapp.env
+
+touch /var/log/webapp.log
+chown webapp:webapp /var/log/webapp.log
+
+cat > /etc/systemd/system/webapp.service <<'UNIT_EOF'
+[Unit]
+Description=Demo web application
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=webapp
+EnvironmentFile=/etc/webapp.env
+WorkingDirectory=/opt/webapp
+ExecStart=/usr/bin/python3 -m gunicorn --workers 2 --bind 0.0.0.0:${app_port} --access-logfile - --error-logfile - app:app
+Restart=always
+RestartSec=3
+StandardOutput=append:/var/log/webapp.log
+StandardError=append:/var/log/webapp.log
+
+[Install]
+WantedBy=multi-user.target
+UNIT_EOF
+
+systemctl daemon-reload
+systemctl enable --now webapp
+
+# --- CloudWatch agent: logs + memory/disk metrics ----------------------------
+cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<'CW_EOF'
+{
+  "agent": {
+    "metrics_collection_interval": 60,
+    "run_as_user": "root"
+  },
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "/var/log/webapp.log",
+            "log_group_name": "${log_group}",
+            "log_stream_name": "{instance_id}/webapp"
+          },
+          {
+            "file_path": "/var/log/user-data.log",
+            "log_group_name": "${log_group}",
+            "log_stream_name": "{instance_id}/user-data"
+          }
+        ]
+      }
+    }
+  },
+  "metrics": {
+    "append_dimensions": {
+      "AutoScalingGroupName": "$${aws:AutoScalingGroupName}"
+    },
+    "metrics_collected": {
+      "mem": { "measurement": ["mem_used_percent"] },
+      "disk": { "measurement": ["used_percent"], "resources": ["/"] }
+    }
+  }
+}
+CW_EOF
+
+/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+  -a fetch-config -m ec2 -s \
+  -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json

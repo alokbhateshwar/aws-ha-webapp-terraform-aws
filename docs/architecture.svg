@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1260 850" width="1260" height="850" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#232F3E"/>
+    </marker>
+  </defs>
+
+  <rect width="1260" height="850" fill="#ffffff"/>
+  <text x="630" y="26" text-anchor="middle" font-size="20" font-weight="bold" fill="#232F3E">Highly Available &amp; Scalable 3-Tier Web Application on AWS</text>
+
+  <!-- ============ Top: user, DNS, internet gateway ============ -->
+  <rect x="40" y="48" width="130" height="50" rx="8" fill="#fff" stroke="#232F3E" stroke-width="2"/>
+  <text x="105" y="79" text-anchor="middle" font-size="14" font-weight="bold" fill="#232F3E">User / Browser</text>
+
+  <rect x="240" y="48" width="160" height="50" rx="8" fill="#fff" stroke="#8C4FFF" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="320" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#232F3E">Route 53</text>
+  <text x="320" y="87" text-anchor="middle" font-size="11" fill="#555">alias record (optional)</text>
+
+  <line x1="170" y1="73" x2="238" y2="73" stroke="#232F3E" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="204" y="65" text-anchor="middle" font-size="10" fill="#555">DNS</text>
+
+  <path d="M400,73 L470,73 L470,118" fill="none" stroke="#232F3E" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="480" y="98" font-size="10" fill="#555">HTTP/HTTPS</text>
+
+  <!-- ============ VPC ============ -->
+  <rect x="40" y="120" width="820" height="690" rx="10" fill="none" stroke="#8C4FFF" stroke-width="2.5"/>
+  <text x="56" y="142" font-size="13" font-weight="bold" fill="#8C4FFF">VPC 10.0.0.0/16  (ap-south-1)</text>
+
+  <rect x="410" y="118" width="120" height="30" rx="6" fill="#fff" stroke="#8C4FFF" stroke-width="2"/>
+  <text x="470" y="138" text-anchor="middle" font-size="12" font-weight="bold" fill="#232F3E">Internet Gateway</text>
+
+  <text x="250" y="166" text-anchor="middle" font-size="13" font-weight="bold" fill="#232F3E">Availability Zone A</text>
+  <text x="650" y="166" text-anchor="middle" font-size="13" font-weight="bold" fill="#232F3E">Availability Zone B</text>
+
+  <!-- ===== Public subnets ===== -->
+  <rect x="60" y="176" width="380" height="150" rx="8" fill="#F2F8EE" stroke="#3F8624" stroke-width="2"/>
+  <rect x="460" y="176" width="380" height="150" rx="8" fill="#F2F8EE" stroke="#3F8624" stroke-width="2"/>
+  <text x="70" y="193" font-size="11" font-weight="bold" fill="#3F8624">Public subnet 10.0.0.0/24</text>
+  <text x="480" y="193" font-size="11" font-weight="bold" fill="#3F8624">Public subnet 10.0.1.0/24</text>
+
+  <rect x="100" y="205" width="700" height="50" rx="8" fill="#fff" stroke="#8C4FFF" stroke-width="2"/>
+  <text x="450" y="226" text-anchor="middle" font-size="14" font-weight="bold" fill="#232F3E">Application Load Balancer (multi-AZ)</text>
+  <text x="450" y="244" text-anchor="middle" font-size="11" fill="#555">ALB SG: ports 80/443 from internet  |  health check /health</text>
+
+  <rect x="90" y="272" width="170" height="42" rx="8" fill="#fff" stroke="#8C4FFF" stroke-width="2"/>
+  <text x="175" y="291" text-anchor="middle" font-size="13" font-weight="bold" fill="#232F3E">NAT Gateway</text>
+  <text x="175" y="306" text-anchor="middle" font-size="10" fill="#555">outbound-only internet</text>
+  <text x="480" y="298" font-size="10" fill="#555">(one shared NAT in lab; one per AZ in production)</text>
+
+  <!-- ===== Private app subnets ===== -->
+  <rect x="60" y="346" width="380" height="180" rx="8" fill="#EEF5FA" stroke="#147EBA" stroke-width="2"/>
+  <rect x="460" y="346" width="380" height="180" rx="8" fill="#EEF5FA" stroke="#147EBA" stroke-width="2"/>
+  <text x="70" y="363" font-size="11" font-weight="bold" fill="#147EBA">Private app subnet 10.0.10.0/24</text>
+  <text x="480" y="363" font-size="11" font-weight="bold" fill="#147EBA">Private app subnet 10.0.11.0/24</text>
+
+  <rect x="70" y="372" width="770" height="145" rx="8" fill="none" stroke="#ED7100" stroke-width="2" stroke-dasharray="7 4"/>
+  <text x="80" y="388" font-size="11" font-weight="bold" fill="#ED7100">Auto Scaling Group</text>
+
+  <rect x="110" y="400" width="280" height="70" rx="8" fill="#fff" stroke="#ED7100" stroke-width="2"/>
+  <text x="250" y="425" text-anchor="middle" font-size="14" font-weight="bold" fill="#232F3E">EC2 instance</text>
+  <text x="250" y="443" text-anchor="middle" font-size="11" fill="#555">Amazon Linux 2023 | Flask + Gunicorn :8080</text>
+  <text x="250" y="459" text-anchor="middle" font-size="10" fill="#555">App SG: 8080 from ALB only | no SSH (SSM)</text>
+
+  <rect x="510" y="400" width="280" height="70" rx="8" fill="#fff" stroke="#ED7100" stroke-width="2"/>
+  <text x="650" y="425" text-anchor="middle" font-size="14" font-weight="bold" fill="#232F3E">EC2 instance</text>
+  <text x="650" y="443" text-anchor="middle" font-size="11" fill="#555">Amazon Linux 2023 | Flask + Gunicorn :8080</text>
+  <text x="650" y="459" text-anchor="middle" font-size="10" fill="#555">App SG: 8080 from ALB only | no SSH (SSM)</text>
+
+  <text x="450" y="496" text-anchor="middle" font-size="10" fill="#555">Scaling: min 2 / max 4, CPU target 50%</text>
+  <text x="450" y="510" text-anchor="middle" font-size="10" fill="#555">Launch template: IMDSv2, encrypted gp3, CloudWatch agent, IAM profile</text>
+
+  <!-- ===== Private DB subnets ===== -->
+  <rect x="60" y="546" width="380" height="150" rx="8" fill="#FDF1F3" stroke="#DD344C" stroke-width="2"/>
+  <rect x="460" y="546" width="380" height="150" rx="8" fill="#FDF1F3" stroke="#DD344C" stroke-width="2"/>
+  <text x="70" y="563" font-size="11" font-weight="bold" fill="#DD344C">Private DB subnet 10.0.20.0/24 (no internet route)</text>
+  <text x="480" y="563" font-size="11" font-weight="bold" fill="#DD344C">Private DB subnet 10.0.21.0/24 (no internet route)</text>
+
+  <rect x="110" y="590" width="280" height="70" rx="8" fill="#fff" stroke="#C925D1" stroke-width="2"/>
+  <text x="250" y="615" text-anchor="middle" font-size="14" font-weight="bold" fill="#232F3E">RDS MySQL (primary)</text>
+  <text x="250" y="633" text-anchor="middle" font-size="11" fill="#555">encrypted | automated backups</text>
+  <text x="250" y="649" text-anchor="middle" font-size="10" fill="#555">DB SG: 3306 from App SG only</text>
+
+  <rect x="510" y="590" width="280" height="70" rx="8" fill="#fff" stroke="#C925D1" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="650" y="615" text-anchor="middle" font-size="14" font-weight="bold" fill="#232F3E">RDS standby</text>
+  <text x="650" y="633" text-anchor="middle" font-size="11" fill="#555">Multi-AZ failover (db_multi_az = true)</text>
+  <text x="650" y="649" text-anchor="middle" font-size="10" fill="#555">optional, extra cost</text>
+
+  <line x1="392" y1="625" x2="508" y2="625" stroke="#C925D1" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+  <text x="450" y="618" text-anchor="middle" font-size="9" fill="#555">sync replication</text>
+
+  <!-- ===== S3 gateway endpoint ===== -->
+  <rect x="330" y="720" width="240" height="42" rx="8" fill="#fff" stroke="#8C4FFF" stroke-width="2"/>
+  <text x="450" y="739" text-anchor="middle" font-size="13" font-weight="bold" fill="#232F3E">S3 Gateway Endpoint</text>
+  <text x="450" y="754" text-anchor="middle" font-size="10" fill="#555">S3 traffic stays on the AWS network</text>
+  <text x="450" y="790" text-anchor="middle" font-size="10" fill="#555">Security groups chain: Internet -> ALB SG -> App SG -> DB SG</text>
+
+  <!-- ===== Traffic arrows inside VPC ===== -->
+  <line x1="470" y1="148" x2="470" y2="203" stroke="#232F3E" stroke-width="2" marker-end="url(#arr)"/>
+
+  <line x1="250" y1="255" x2="250" y2="398" stroke="#232F3E" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="650" y1="255" x2="650" y2="398" stroke="#232F3E" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="258" y="335" font-size="10" fill="#555">HTTP :8080</text>
+  <text x="658" y="335" font-size="10" fill="#555">HTTP :8080</text>
+
+  <line x1="210" y1="470" x2="210" y2="588" stroke="#232F3E" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M750,470 L750,538 L330,538 L330,588" fill="none" stroke="#232F3E" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="216" y="537" font-size="10" fill="#555">MySQL :3306</text>
+
+
+  <path d="M840,420 L850,420 L850,741 L572,741" fill="none" stroke="#232F3E" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+
+  <!-- ============ Right column: managed services outside the VPC ============ -->
+  <text x="1060" y="130" text-anchor="middle" font-size="13" font-weight="bold" fill="#232F3E">AWS managed services</text>
+
+  <rect x="910" y="145" width="320" height="76" rx="8" fill="#fff" stroke="#DD344C" stroke-width="2"/>
+  <text x="1070" y="168" text-anchor="middle" font-size="14" font-weight="bold" fill="#232F3E">IAM role (EC2 instance profile)</text>
+  <text x="1070" y="186" text-anchor="middle" font-size="10" fill="#555">SSM Session Manager | CloudWatch agent</text>
+  <text x="1070" y="202" text-anchor="middle" font-size="10" fill="#555">read 1 secret | use 1 S3 bucket (least privilege)</text>
+
+  <rect x="910" y="332" width="320" height="56" rx="8" fill="#fff" stroke="#3F8624" stroke-width="2"/>
+  <text x="1070" y="356" text-anchor="middle" font-size="14" font-weight="bold" fill="#232F3E">Amazon S3</text>
+  <text x="1070" y="374" text-anchor="middle" font-size="10" fill="#555">static assets | encrypted | private | versioned | TLS only</text>
+
+  <rect x="910" y="422" width="320" height="56" rx="8" fill="#fff" stroke="#DD344C" stroke-width="2"/>
+  <text x="1070" y="446" text-anchor="middle" font-size="14" font-weight="bold" fill="#232F3E">AWS Secrets Manager</text>
+  <text x="1070" y="464" text-anchor="middle" font-size="10" fill="#555">RDS-generated DB password (no secrets in code)</text>
+
+  <rect x="910" y="512" width="320" height="56" rx="8" fill="#fff" stroke="#E7157B" stroke-width="2"/>
+  <text x="1070" y="536" text-anchor="middle" font-size="14" font-weight="bold" fill="#232F3E">Amazon CloudWatch</text>
+  <text x="1070" y="554" text-anchor="middle" font-size="10" fill="#555">metrics | app logs | dashboard | 6 alarms</text>
+
+  <rect x="910" y="602" width="320" height="56" rx="8" fill="#fff" stroke="#E7157B" stroke-width="2"/>
+  <text x="1070" y="626" text-anchor="middle" font-size="14" font-weight="bold" fill="#232F3E">Amazon SNS</text>
+  <text x="1070" y="644" text-anchor="middle" font-size="10" fill="#555">alarm + Auto Scaling event notifications</text>
+
+  <rect x="910" y="692" width="320" height="50" rx="8" fill="#fff" stroke="#232F3E" stroke-width="2"/>
+  <text x="1070" y="722" text-anchor="middle" font-size="14" font-weight="bold" fill="#232F3E">Email alerts</text>
+
+  <!-- bus from the ASG to the managed services -->
+  <line x1="880" y1="360" x2="880" y2="540" stroke="#232F3E" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <line x1="850" y1="420" x2="880" y2="420" stroke="#232F3E" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <line x1="880" y1="360" x2="908" y2="360" stroke="#232F3E" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  <line x1="880" y1="450" x2="908" y2="450" stroke="#232F3E" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  <line x1="880" y1="540" x2="908" y2="540" stroke="#232F3E" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  
+  <line x1="1070" y1="568" x2="1070" y2="600" stroke="#232F3E" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="1070" y1="658" x2="1070" y2="690" stroke="#232F3E" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- legend -->
+  <rect x="910" y="770" width="14" height="14" fill="#F2F8EE" stroke="#3F8624" stroke-width="2"/>
+  <text x="930" y="782" font-size="11" fill="#232F3E">Public subnet</text>
+  <rect x="1020" y="770" width="14" height="14" fill="#EEF5FA" stroke="#147EBA" stroke-width="2"/>
+  <text x="1040" y="782" font-size="11" fill="#232F3E">Private app</text>
+  <rect x="1120" y="770" width="14" height="14" fill="#FDF1F3" stroke="#DD344C" stroke-width="2"/>
+  <text x="1140" y="782" font-size="11" fill="#232F3E">Private DB</text>
+  <line x1="910" y1="805" x2="940" y2="805" stroke="#232F3E" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="946" y="809" font-size="11" fill="#232F3E">App access to AWS services (IAM role)</text>
+</svg>
