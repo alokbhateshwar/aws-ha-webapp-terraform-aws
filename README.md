@@ -16,7 +16,7 @@ S3, CloudWatch monitoring and SNS alerts. Optional Route 53 domain + HTTPS.
 
 ## Architecture
 
-See [docs/architecture.md](docs/architecture.md) for the full diagram and design decisions.
+See ![Architecture Diagram](./docs/architecture.png) for the full diagram and design decisions.
 
 ```
 User -> Route 53 -> ALB (public subnets) -> EC2 Auto Scaling Group (private subnets) -> RDS MySQL (private DB subnets)
