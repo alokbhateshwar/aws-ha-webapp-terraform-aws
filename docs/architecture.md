@@ -1,4 +1,5 @@
 # Architecture
+<img width="1260" height="850" alt="image" src="https://github.com/user-attachments/assets/28f06f7b-4d11-43ae-b083-2fa705ad0ac9" />
 
 ## Diagram
 ![Architecture diagram](docs/architecture.svg)
