@@ -1,0 +1,26 @@
+# Copy this file to terraform.tfvars and edit. terraform.tfvars is git-ignored.
+
+aws_region   = "ap-south-1"
+project_name = "ha-webapp"
+environment  = "dev"
+
+# REQUIRED: you will get a confirmation email, click "Confirm subscription".
+alert_email = "you@example.com"
+
+instance_type        = "t3.micro"
+asg_min_size         = 2
+asg_desired_capacity = 2
+asg_max_size         = 4
+cpu_target_value     = 50
+
+db_instance_class = "db.t3.micro"
+db_multi_az       = false
+
+# AWS Free Tier accounts only allow 0-1 days of backup retention
+db_backup_retention_days = 1
+
+single_nat_gateway = true
+
+# Optional: custom domain + HTTPS (needs an existing Route 53 hosted zone)
+# domain_name      = "app.example.com"
+# hosted_zone_name = "example.com"
